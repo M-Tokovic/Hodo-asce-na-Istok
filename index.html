@@ -15,11 +15,11 @@
         .lopta-lice { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: url('j.jpg') center/cover; border: 3px solid silver; box-shadow: 0 0 25px white; }
         #sat-prikaz { color: white; font-size: 1.2em; font-weight: bold; text-shadow: 2px 2px 5px #000; margin-top: 30px; letter-spacing: 1px; }
 
-        /* ZASTAVE */
+        /* ZASTAVE - SADA SE UGIBUJU */
         .blok-desno { position: fixed; top: 30px; right: 30px; display: flex; flex-direction: column; align-items: center; z-index: 20; }
         .zastave { display: flex; gap: 15px; margin-bottom: 10px; }
-        .zastava-link { width: 55px; height: 33px; border: 2px solid white; border-radius: 4px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 2px 2px 10px #000; transition: 0.2s; }
-        .zastava-link:hover { transform: scale(1.1); }
+        .zastava-link { width: 55px; height: 33px; border: 2px solid white; border-radius: 4px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 2px 2px 10px #000; transition: 0.2s ease; cursor: pointer; }
+        .zastava-link:hover { transform: scale(1.15); }
         .srb .b1 { background: #C6363C; height: 33.3%; } .srb .b2 { background: #0C4076; height: 33.3%; } .srb .b3 { background: #FFFFFF; height: 33.3%; }
         .rus .b1 { background: #FFFFFF; height: 33.3%; } .rus .b2 { background: #0033A0; height: 33.3%; } .rus .b3 { background: #DA291C; height: 33.3%; }
         .grk { background: #005BAE; position: relative; } .grk::after { content: "✚"; color: white; display: flex; justify-content: center; align-items: center; height: 100%; font-size: 20px; }
@@ -29,7 +29,6 @@
         .sadrzaj { position: relative; z-index: 5; text-align: center; margin-top: 80px; padding-bottom: 220px; }
         h1 { font-size: 3.5em; color: #ccff00; text-shadow: 3px 3px 15px #000; margin: 0; }
         h2 { color: #ccff00; font-style: italic; margin: 0 0 30px 0; text-shadow: 2px 2px 10px #000; }
-        
         .hartija { 
             display: inline-block; background: #d4b483; padding: 50px 70px; position: relative; 
             background-image: url('https://transparenttextures.com'); 
@@ -45,7 +44,7 @@
         .donja-zona { position: fixed; bottom: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 50px; box-sizing: border-box; z-index: 100; }
         .ikona-kontejner { position: relative; display: flex; flex-direction: column; align-items: center; }
 
-        /* CRNI PROZOR - SPUŠTEN DODATNO */
+        /* CRNI PROZOR - SREĐEN */
         .prozor { 
             visibility: hidden; position: absolute; 
             bottom: 75%; left: 50%; transform: translateX(-50%);
@@ -53,7 +52,8 @@
             padding: 4px 10px; text-align: center; color: #ccff00; font-weight: bold; 
             font-size: 0.8em; white-space: nowrap; opacity: 0; transition: 0.2s ease; z-index: 200;
             box-shadow: 0 4px 10px rgba(0,0,0,0.9);
-            margin-bottom: -8px; /* SPUŠTENO ZA JOŠ PAR PIKSELA */
+            margin-bottom: -8px; 
+            pointer-events: none;
         }
         .prozor::after {
             content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px;
@@ -61,7 +61,7 @@
         }
         .ikona-kontejner:hover .prozor { visibility: visible; opacity: 1; bottom: 95%; }
 
-        .ikona { font-size: 3em; cursor: pointer; text-shadow: 2px 2px 5px #000; text-decoration: none; transition: 0.2s; border: none; background: none; }
+        .ikona { font-size: 3em; cursor: pointer; text-shadow: 2px 2px 5px #000; transition: 0.2s; -webkit-tap-highlight-color: transparent; }
         .ikona:hover { transform: scale(1.1); }
 
         .mail { color: silver; } .viber { color: #7360f2; }
@@ -80,11 +80,12 @@
         <div id="sat-prikaz"></div>
     </div>
 
+    <!-- Zastave: Ugiбају se, nemaju linkove u HTML-u (idu preko JS-a) -->
     <div class="blok-desno">
         <div class="zastave">
-            <a href="https://crkvenikalendar.com/" target="_blank" class="zastava-link srb"><div class="b1"></div><div class="b2"></div><div class="b3"></div></a>
-            <a href="https://saint.gr/" target="_blank" class="zastava-link grk"></a>
-            <a href="https://days.pravoslavie.ru/" target="_blank" class="zastava-link rus"><div class="b1"></div><div class="b2"></div><div class="b3"></div></a>
+            <div onclick="otvori('https://crkvenikalendar.com/')" class="zastava-link srb"><div class="b1"></div><div class="b2"></div><div class="b3"></div></div>
+            <div onclick="otvori('https://saint.gr/')" class="zastava-link grk"></div>
+            <div onclick="otvori('https://days.pravoslavie.ru/')" class="zastava-link rus"><div class="b1"></div><div class="b2"></div><div class="b3"></div></div>
         </div>
         <div id="datum-prikaz"></div>
     </div>
@@ -99,39 +100,43 @@
         <div style="display: flex; gap: 35px;">
             <div class="ikona-kontejner">
                 <div class="prozor">topaz032@gmail.com</div>
-                <a href="mailto:topaz032@gmail.com" class="ikona mail">@</a>
+                <div onclick="otvori('mailto:topaz032@gmail.com')" class="ikona mail">@</div>
             </div>
             <div class="ikona-kontejner">
                 <div class="prozor">Viber</div>
-                <a href="viber://chat?number=381645330444" class="ikona viber">📞</a>
+                <div onclick="otvori('viber://chat?number=%2B381645330444')" class="ikona viber">📞</div>
             </div>
         </div>
 
-        <!-- YouTube 1 i 2 - SPUŠTENI PROZORI -->
         <div style="display: flex; flex-direction: column; gap: 10px; margin-right: 40px; align-items: center;">
             <div class="ikona-kontejner">
                 <div class="prozor">YouTube 1</div>
-                <a href="https://www.youtube.com/@%D0%9C.%D0%A2%D0%BE%D0%BA%D0%BE%D0%B2%D0%B8%D1%9B" target="_blank" class="ikona yt">▶</a>
+                <div onclick="otvori('https://www.youtube.com/@%D0%9C.%D0%A2%D0%BE%D0%BA%D0%BE%D0%B2%D0%B8%D1%9B')" class="ikona yt">▶</div>
             </div>
             <div class="ikona-kontejner">
                 <div class="prozor">YouTube 2</div>
-                <a href="https://www.youtube.com/@marko32t/videos" target="_blank" class="ikona yt yt2">▶</a>
+                <div onclick="otvori('https://www.youtube.com/@marko32t/videos')" class="ikona yt yt2">▶</div>
             </div>
         </div>
 
         <div style="display: flex; gap: 45px;">
             <div class="ikona-kontejner">
                 <div class="prozor">Instagram</div>
-                <a href="https://www.instagram.com/markotokovic/" target="_blank" class="ikona insta">回</a>
+                <div onclick="otvori('https://www.instagram.com/markotokovic/')" class="ikona insta">回</div>
             </div>
             <div class="ikona-kontejner">
                 <div class="prozor">Facebook</div>
-                <a href="https://www.facebook.com/markotokovic" target="_blank" class="ikona fb">f</a>
+                <div onclick="otvori('https://www.facebook.com/markotokovic')" class="ikona fb">f</div>
             </div>
         </div>
     </div>
 
     <script>
+        // Funkcija koja otvara linkove - sprečava browser da pravi "bele prozore"
+        function otvori(url) {
+            window.open(url, '_blank');
+        }
+
         const misliZaMaj = {
             "3.5.": "Кљун се заглавио у решетку канализационог одвода.<br>Уместо да смирено затвори кљун и извуче се,<br>он је све више гордо зевао и усисавао канализацију у себе.",
             "6.5.": "Чудио се зашто стално жури, као мећава —<br>док није схватио да га је ђаво узјахао па копитама удара о слабине,<br>а роговима га туче за врат.",
@@ -144,7 +149,7 @@
             "22.5.": "Да ниси отишла у бели свет,<br>не би схватила колико је живот у Србији леп.",
             "24.5.": "На свако питање има одговор, али филозофски,<br>мада на нека и философски.",
             "30.5.": "Имам гробно место, на прелепом месту, испод тује...<br>Нит нешто стичем, нит сам спреман за онамо...<br>Покој нам душама, ускоро, Боже здравља!",
-            "31.5.": '<a href="https://youtu.be" target="_blank" style="color:#8b0000; text-decoration:none;">Тројице</a>'
+            "31.5.": '<span onclick="otvori(\'https://youtu.be\')" style="color:#8b0000; cursor:pointer;">Тројице</span>'
         };
 
         function azurirajVreme() { document.getElementById('sat-prikaz').innerText = new Date().toLocaleTimeString('sr-RS'); }
